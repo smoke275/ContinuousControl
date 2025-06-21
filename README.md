@@ -60,6 +60,8 @@ The agent learns through:
 
 The agent successfully achieved an average score of **30.24** over 100 consecutive episodes.
 
+![Training Progress](img.png)
+
 ### Training Progress
 - Episodes 1-100: Gradual improvement from ~1 to ~8 average score
 - Episodes 100-150: Rapid improvement, reaching consistent 20+ scores  
