@@ -95,22 +95,101 @@ WEIGHT_DECAY = 0.0001   # L2 regularization
 └── checkpoint_critic.pth   # Saved critic weights
 ```
 
-## Future Improvements
+## Ideas for Future Work
 
-### Algorithm Enhancements
-- **Distributed Distributional DDPG (D4PG)**: Use distributional RL with multiple workers
-- **Twin Delayed DDPG (TD3)**: Address overestimation bias with delayed policy updates
-- **Prioritized Experience Replay**: Sample important experiences more frequently
+### Algorithm Improvements
+
+**Twin Delayed DDPG (TD3)**
+- Add clipped double Q-learning to reduce overestimation bias
+- Implement delayed policy updates (update actor less frequently than critic)
+- Add target policy smoothing with noise injection
+- Expected improvement: More stable training and better final performance
+
+**Distributed Distributional DDPG (D4PG)**
+- Replace scalar Q-values with full return distributions
+- Use multiple parallel actors for diverse experience collection
+- Implement N-step returns for better temporal credit assignment
+- Expected improvement: Faster convergence and more robust learning
+
+**Prioritized Experience Replay (PER)**
+- Sample experiences based on temporal difference error magnitude
+- Focus learning on the most "surprising" transitions
+- Use importance sampling to correct for sampling bias
+- Expected improvement: 30-50% reduction in training episodes needed
+
+### Exploration Strategies
+
+**Parameter Space Noise**
+- Add noise directly to neural network parameters instead of actions
+- Provides more consistent exploration across different states
+- Self-adapting noise levels based on policy changes
+- Expected improvement: More effective exploration in complex environments
+
+**Curiosity-Driven Learning**
+- Implement intrinsic motivation based on prediction errors
+- Reward agent for visiting novel states or learning new dynamics
+- Combine with extrinsic rewards for better exploration-exploitation balance
+- Expected improvement: Better performance in sparse reward environments
+
+### Training Efficiency Improvements
+
+**Multi-Agent Parallel Training**
+- Train 20 identical agents simultaneously in separate environments
+- Share experience replay buffer across all agents
+- Accelerate learning through diverse parallel experiences
+- Expected improvement: 5-10x faster wall-clock training time
+
+**Curriculum Learning**
+- Start with easier target positions (larger target zones)
+- Gradually increase difficulty as agent improves
+- Implement automatic difficulty adjustment based on success rate
+- Expected improvement: More reliable convergence and reduced training variance
+
+**Hindsight Experience Replay (HER)**
+- Re-label failed experiences with alternative goals
+- Learn from failures by treating them as successes for different objectives
+- Particularly effective for goal-conditioned tasks
+- Expected improvement: Better sample efficiency in goal-based environments
+
+### Network Architecture Enhancements
+
+**Attention Mechanisms**
+- Add self-attention layers to focus on relevant state components
+- Enable the agent to dynamically attend to important arm joint information
+- Improve generalization to different arm configurations
+- Expected improvement: Better performance with partial observations
+
+**Residual Connections**
+- Add skip connections in deeper networks to prevent gradient vanishing
+- Enable training of much deeper networks (10+ layers)
+- Improve gradient flow and training stability
+- Expected improvement: Better representation learning with deeper networks
+
+**Batch Normalization**
+- Normalize inputs to each layer to stabilize training
+- Reduce sensitivity to hyperparameter choices
+- Enable higher learning rates for faster convergence
+- Expected improvement: More robust training across different hyperparameter settings
 
 ### Hyperparameter Optimization
-- **Learning Rate Scheduling**: Decay learning rates during training
-- **Noise Decay**: Reduce exploration noise as agent improves
-- **Network Architecture**: Experiment with deeper/wider networks
 
-### Training Efficiency
-- **Multi-Agent Training**: Train multiple agents simultaneously
-- **Curriculum Learning**: Gradually increase task difficulty
-- **Transfer Learning**: Pre-train on simpler tasks
+**Automated Hyperparameter Search**
+- Use Bayesian optimization or population-based training
+- Systematically explore learning rates, network sizes, and noise parameters
+- Find optimal hyperparameter combinations automatically
+- Expected improvement: 10-20% better final performance
+
+**Adaptive Learning Rates**
+- Implement learning rate schedules or adaptive optimizers (AdamW, RMSprop)
+- Reduce learning rates as training progresses
+- Use different schedules for actor and critic networks
+- Expected improvement: More stable convergence and better final policies
+
+**Dynamic Noise Scheduling**
+- Start with high exploration noise, gradually reduce during training
+- Implement noise decay based on performance milestones
+- Add noise injection during evaluation to test robustness
+- Expected improvement: Better exploration-exploitation balance throughout training
 
 ## Dependencies
 
